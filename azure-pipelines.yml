@@ -30,7 +30,7 @@ stages:
   jobs:
   - job: Build
     displayName: Build
-    pool: default
+    pool: llano-velasco-final
       #vmImage: $(vmImageName)
     steps:
     - task: Docker@2
@@ -54,7 +54,7 @@ stages:
   - deployment: Deploy
     condition: and(succeeded(), not(startsWith(variables['Build.SourceBranch'], 'refs/pull/')))
     displayName: Deploy
-    pool: default
+    pool: llano-velasco-final
       #vmImage: $(vmImageName)
     environment: 'crisdan1991llanovelascofinal.default'
     strategy:
