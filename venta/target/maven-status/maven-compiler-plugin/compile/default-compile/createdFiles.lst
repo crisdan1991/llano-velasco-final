@@ -1,0 +1,6 @@
+com\venta\venta\repository\PersonaRepository.class
+com\venta\venta\VentaApplication.class
+com\venta\venta\model\Persona.class
+com\venta\venta\dto\PersonaDireccionDTO.class
+com\venta\venta\service\PersonaService.class
+com\venta\venta\controller\PersonaController.class
