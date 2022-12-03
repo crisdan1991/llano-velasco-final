@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: frontvista 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontvista
+  template:
+    metadata:
+      labels:
+        app: frontvista 
+    spec:
+      containers:
+        - name: frontvista 
+          image: llanovelascofinal.azurecr.io/frontvista
+          ports:
+          - containerPort: 80
