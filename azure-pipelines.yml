@@ -33,7 +33,6 @@ stages:
     pool:
       vmImage: $(vmImageName)
     steps:
-    - checkout: https://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@github.com/crisdan1991/llano-velasco-final.git
     - task: Docker@2
       displayName: Build and push an image to container registry
       inputs:
@@ -62,7 +61,6 @@ stages:
       runOnce:
         deploy:
           steps:
-          - checkout: https://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@github.com/crisdan1991/llano-velasco-final.git
           - task: KubernetesManifest@0
             displayName: Create imagePullSecret
             inputs:
@@ -93,7 +91,6 @@ stages:
       runOnce:
         deploy:
           steps:
-          - checkout: https://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@github.com/crisdan1991/llano-velasco-final.git
           - reviewApp: default
 
           - task: Kubernetes@1
