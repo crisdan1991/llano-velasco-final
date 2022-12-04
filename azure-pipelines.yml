@@ -6,10 +6,7 @@ trigger:
 - master
 
 resources:
-  repositories:
-  - repository: https://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@github.com/crisdan1991/llano-velasco-final
-    type: github
-#- repo: self
+- repo: self
 
 variables:
 
@@ -85,7 +82,6 @@ stages:
     displayName: Deploy Pull request
     condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/pull/'))
     pool: llano-Velasco-final
-
     environment: 'crisdan1991llanovelascofinal-3565.$(k8sNamespaceForPR)'
     strategy:
       runOnce:
