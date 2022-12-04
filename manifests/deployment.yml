@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: crisdanllanovelascofinal 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: crisdanllanovelascofinal
+  template:
+    metadata:
+      labels:
+        app: crisdanllanovelascofinal 
+    spec:
+      containers:
+        - name: crisdanllanovelascofinal 
+          image: llanovelascofinal.azurecr.io/crisdanllanovelascofinal
+          ports:
+          - containerPort: 80
