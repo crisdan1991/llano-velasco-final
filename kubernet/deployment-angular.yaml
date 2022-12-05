@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: angular-service
-          image: dan1991/front-vista:latest
+          image: jllanocicd.azurecr.io/front-vista
           ports:
             - containerPort: 80
           resources: {}

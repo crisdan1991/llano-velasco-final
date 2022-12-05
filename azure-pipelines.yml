@@ -73,8 +73,11 @@ stages:
             inputs:
               action: deploy
               manifests: |
-                $(Pipeline.Workspace)/manifests/deployment.yml
-                $(Pipeline.Workspace)/manifests/service.yml
+                $(Pipeline.Workspace)/kubernet/deployment-springe.yaml
+                $(Pipeline.Workspace)/kubernet/service-springe.yaml
+                $(Pipeline.Workspace)/kubernet/deployment-angular.yaml
+                $(Pipeline.Workspace)/kubernet/service-angular.yaml
+                $(Pipeline.Workspace)/kubernet/angular-ingress.yaml
               imagePullSecrets: |
                 $(imagePullSecret)
               containers: |
@@ -114,8 +117,11 @@ stages:
               action: deploy
               namespace: $(k8sNamespaceForPR)
               manifests: |
-                $(Pipeline.Workspace)/manifests/deployment.yml
-                $(Pipeline.Workspace)/manifests/service.yml
+                $(Pipeline.Workspace)/kubernet/deployment-springe.yaml
+                $(Pipeline.Workspace)/kubernet/service-springe.yaml
+                $(Pipeline.Workspace)/kubernet/deployment-angular.yaml
+                $(Pipeline.Workspace)/kubernet/service-angular.yaml
+                $(Pipeline.Workspace)/kubernet/angular-ingress.yaml
               imagePullSecrets: |
                 $(imagePullSecret)
               containers: |

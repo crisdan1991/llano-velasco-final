@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: spring
-          image: dan1991/back-venta:latest
+          image: jllanocicd.azurecr.io/back-venta
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: "docker"
