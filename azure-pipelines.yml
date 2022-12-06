@@ -74,6 +74,10 @@ stages:
         secretType: 'dockerRegistry'
         secretName: '$(acrsecret)'
         dockerRegistryEndpoint: 'llanovelascofinal'
+
+    - script: dir $(Build.SourcesDirectory)/kubernet
+      displayName: Cloning Manifest Files From Repo
+      
     - task: KubernetesManifest@0
       inputs:
         action: 'deploy'
