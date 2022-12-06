@@ -77,14 +77,16 @@ stages:
 
     - script: dir $(Build.SourcesDirectory)/kubernet
       displayName: Cloning Manifest Files From Repo
-      
+
     - task: KubernetesManifest@0
       inputs:
         action: 'deploy'
         kubernetesServiceConnection: 'llano-velasco-final-default'
         namespace: 'default'
         manifests: |
-          $(Pipeline.Workspace)/kubernet/deployment-spring.yml
-          $(Pipeline.Workspace)/kubernet/service-spring.yml
+          kubernet/deployment-spring.yml
+          kubernet/service-spring.yml
+        #  $(Pipeline.Workspace)/kubernet/deployment-angular.yml
+        #  $(Pipeline.Workspace)/kubernet/service-angular.yml
         #containers: '$(acrdevurl)/$(imageRepo):$(tag)'
         #imagePullSecrets: '$(acrsecret)'
