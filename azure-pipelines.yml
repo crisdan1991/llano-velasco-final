@@ -86,7 +86,8 @@ stages:
         manifests: |
           kubernet/deployment-spring.yml
           kubernet/service-spring.yml
-        #  $(Pipeline.Workspace)/kubernet/deployment-angular.yml
-        #  $(Pipeline.Workspace)/kubernet/service-angular.yml
-        #containers: '$(acrdevurl)/$(imageRepo):$(tag)'
-        #imagePullSecrets: '$(acrsecret)'
+          kubernet/deployment-angular.yml
+          kubernet/service-angular.yml
+          kubernet/angular-ingress.yml
+        containers: '$(acrdevurl)/$(imageRepo):$(tag)'
+        imagePullSecrets: '$(acrsecret)'

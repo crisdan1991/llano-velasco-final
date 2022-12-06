@@ -6,7 +6,7 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /$1
 spec:
   rules:
-    - host: llano-velasco-final.info
+    - host: llano-velasco-final.azurewebsites.net
       http:
         paths:
           - path: /
