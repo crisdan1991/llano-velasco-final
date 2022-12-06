@@ -1,5 +1,5 @@
-kind: Service
 apiVersion: v1
+kind: Service
 metadata:
   name: spring
   labels:
@@ -8,8 +8,8 @@ spec:
   ports:
     - name: spring
       port: 8080
-      nodePort: 30780
-  #type: LoadBalancer
-  type: NodePort
+      #nodePort: 30780
+  type: LoadBalancer
+  #type: NodePort
   selector:
     app: spring
