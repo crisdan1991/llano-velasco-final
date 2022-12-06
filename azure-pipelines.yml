@@ -39,7 +39,7 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
-          
+          latest
     - task: Docker@2
       displayName: Build and push an image to container registry Vista
       inputs:
@@ -49,3 +49,36 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
+          latest
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(Pipeline.Workspace)/s/kubernetes'
+        artifact: 'manifests'
+        publishLocation: 'pipeline'
+- stage: Deploy
+  displayName: Deploy to Dev
+  dependsOn: Build
+  variables:
+    acrsecret: pruebasjhony
+  jobs:
+  - deployment: Deploy
+    displayName: Deploy to Venta
+    pool: 
+      vmImage: ubuntu-latest
+    steps:
+    - task: KubernetesManifest@0
+      inputs:
+        action: 'createSecret'
+        kubernetesServiceConnection: 'llano-velasco-final-default'
+        namespace: 'default'
+        secretType: 'dockerRegistry'
+        secretName: '$(acrsecret)'
+        dockerRegistryEndpoint: 'llanovelascofinal'
+    - task: KubernetesManifest@0
+      inputs:
+        action: 'deploy'
+        kubernetesServiceConnection: 'llano-velasco-final-default'
+        namespace: 'default'
+        manifests: |
+          $(Pipeline.Workspace)/kubernet/deployement-spring.yml
+          $(Pipeline.Workspace)/kubernet/service-spring.yml
