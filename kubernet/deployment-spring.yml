@@ -6,7 +6,7 @@ spec:
   selector:
     matchLabels:
       app: spring
-  replicas: 1
+  replicas: #replicaNo#
   template:
     metadata:
       labels:
@@ -27,7 +27,7 @@ spec:
           ports:
             - containerPort: 8080
               name: spring
-          resources: {}
+          #resources: {}
       restartPolicy: Always
-status: {}
+#status: {}
 
