@@ -25,17 +25,31 @@ stages:
 - stage: Build
   displayName: Build and push stage
   jobs:
-  - job: Build
-    displayName: Build
+  - job: Build 
+    displayName: Build venta
     pool:
       vmImage: $(vmImageName)
     steps:
     - task: Docker@2
-      displayName: Build and push an image to container registry
+      displayName: Build and push an image to container registry Venta
       inputs:
         command: buildAndPush
         repository: $(imageRepositoryVenta)
         dockerfile: $(dockerfilePathVenta)
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
+  - job: Build 
+    displayName: Build vista
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+    - task: Docker@2
+      displayName: Build and push an image to container registry Vista
+      inputs:
+        command: buildAndPush
+        repository: $(imageRepositoryVista)
+        dockerfile: $(dockerfilePathVista)
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)

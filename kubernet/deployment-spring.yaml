@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: spring
-          image: jllanocicd.azurecr.io/venta
+          image: llanovelascofinal.azurecr.io/venta
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: "docker"
