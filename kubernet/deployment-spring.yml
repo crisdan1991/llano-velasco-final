@@ -7,6 +7,11 @@ spec:
     matchLabels:
       app: spring
   replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
   template:
     metadata:
       labels:
@@ -15,7 +20,7 @@ spec:
       containers:
         - name: spring
           image: llanovelascofinal.azurecr.io/venta:latest
-          imagePullPolicy: Never
+          #imagePullPolicy: Never
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: docker
@@ -27,8 +32,3 @@ spec:
               value: ups12345678@
           ports:
             - containerPort: 8080
-              name: spring
-          resources: {}
-      restartPolicy: Always
-status: {}
-
