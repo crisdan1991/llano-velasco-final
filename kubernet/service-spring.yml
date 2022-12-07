@@ -8,8 +8,7 @@ spec:
   ports:
     - name: spring
       port: 8080
-      nodePort: 30780
-  #type: LoadBalancer
-  type: NodePort
+      #nodePort: 30780
+  #type: NodePort
   selector:
     app: spring

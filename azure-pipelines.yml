@@ -1,5 +1,5 @@
-# Deploy to Azure Kubernetes Service
-# Build and push image to Azure Container Registry; Deploy to Azure Kubernetes Service
+# Docker
+# Build and push an image to Azure Container Registry
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
 trigger:
@@ -9,71 +9,82 @@ resources:
 - repo: self
 
 variables:
-
   # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: '5ea9a252-2737-408a-99d1-202956919a01'
-  imageRepository: 'venta'
+  dockerRegistryServiceConnection: 'ffcce8b0-ba3b-499b-8afb-17d9c84f3b20'
+  imageRepositoryVenta: 'venta'
+  dockerfilePathVenta: '$(Build.SourcesDirectory)/venta/Dockerfile'
+  imageRepositoryVista: 'vista'
+  dockerfilePathVista: '$(Build.SourcesDirectory)/vista/Dockerfile'
   containerRegistry: 'llanovelascofinal.azurecr.io'
-  dockerfilePath: '$(Build.SourcesDirectory)/venta/Dockerfile'
   tag: '$(Build.BuildId)'
-  imagePullSecret: 'llanovelascofinal10842411-auth'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
 
-
 stages:
 - stage: Build
-  displayName: Build stage
+  displayName: Build and push stage
   jobs:
-  - job: Build
-    displayName: Build
+  - job: Build 
+    displayName: Build venta
     pool:
       vmImage: $(vmImageName)
     steps:
     - task: Docker@2
-      displayName: Build and push an image to container registry
+      displayName: Build and push an image to container registry Venta
       inputs:
         command: buildAndPush
-        repository: $(imageRepository)
-        dockerfile: $(dockerfilePath)
+        repository: $(imageRepositoryVenta)
+        dockerfile: $(dockerfilePathVenta)
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
-
-    - upload: manifests
-      artifact: manifests
+          latest
+    - task: Docker@2
+      displayName: Build and push an image to container registry Vista
+      inputs:
+        command: buildAndPush
+        repository: $(imageRepositoryVista)
+        dockerfile: $(dockerfilePathVista)
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
+          latest
 
 - stage: Deploy
-  displayName: Deploy stage
+  displayName: Deploy to Dev
   dependsOn: Build
-
+  variables:
+    acrsecret: pruebasjhony
   jobs:
-  - deployment: Deploy
-    displayName: Deploy
-    pool:
-      vmImage: $(vmImageName)
-    environment: 'crisdan1991llanovelascofinal-1834.default'
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-          - task: KubernetesManifest@0
-            displayName: Create imagePullSecret
-            inputs:
-              action: createSecret
-              secretName: $(imagePullSecret)
-              dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
+  - job: Deploy
+    displayName: Deploy to Venta
+    pool: 
+      vmImage: ubuntu-latest
+    steps:
+    - task: DownloadPipelineArtifact@2
+      inputs:
+        buildType: 'current'
+        targetPath: '$(Pipeline.Workspace)/kubernet'
+    - task: KubernetesManifest@0
+      inputs:
+        action: 'createSecret'
+        kubernetesServiceConnection: 'llano-velasco-final-default'
+        namespace: 'default'
+        secretType: 'dockerRegistry'
+        secretName: '$(acrsecret)'
+        dockerRegistryEndpoint: 'llanovelascofinal'
 
-          - task: KubernetesManifest@0
-            displayName: Deploy to Kubernetes cluster
-            inputs:
-              action: deploy
-              manifests: |
-                $(Pipeline.Workspace)/manifests/deployment.yml
-                $(Pipeline.Workspace)/manifests/service.yml
-              imagePullSecrets: |
-                $(imagePullSecret)
-              containers: |
-                $(containerRegistry)/$(imageRepository):$(tag)
+    - script: dir $(Build.SourcesDirectory)/kubernet
+      displayName: Cloning Manifest Files From Repo
 
+    - task: KubernetesManifest@0
+      inputs:
+        action: 'deploy'
+        kubernetesServiceConnection: 'llano-velasco-final-default'
+        namespace: 'default'
+        manifests: |
+          kubernet/deployment-spring.yml
+          kubernet/service-spring.yml
+        containers: '$(acrdevurl)/$(imageRepo):$(tag)'
+        imagePullSecrets: '$(acrsecret)'

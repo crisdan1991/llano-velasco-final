@@ -14,16 +14,17 @@ spec:
     spec:
       containers:
         - name: spring
-          image: llanovelascofinal.azurecr.io/venta
+          image: llanovelascofinal.azurecr.io/venta:latest
+          imagePullPolicy: Never
           env:
             - name: SPRING_PROFILES_ACTIVE
-              value: "docker"
+              value: docker
             - name: SPRING_DATASOURCE_URL
-              value: "jdbc:postgresql://integra-postgres.postgres.database.azure.com:5432/factura"
+              value: jdbc:postgresql://integra-postgres.postgres.database.azure.com:5432/factura
             - name: SPRING_DATASOURCE_USERNAME
-              value: "paul"
+              value: paul
             - name: SPRING_DATASOURCE_PASSWORD
-              value: "ups12345678@"
+              value: ups12345678@
           ports:
             - containerPort: 8080
               name: spring
