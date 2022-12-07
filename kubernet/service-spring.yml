@@ -8,7 +8,7 @@ spec:
   ports:
     - name: spring
       port: 8080
-      #nodePort: 30780
-  #type: NodePort
+      nodePort: 30082
+  type: NodePort
   selector:
     app: spring
