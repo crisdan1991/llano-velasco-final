@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: venta 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: venta
+  template:
+    metadata:
+      labels:
+        app: venta 
+    spec:
+      containers:
+        - name: venta 
+          image: llanovelascofinal.azurecr.io/venta
+          ports:
+          - containerPort: 80
