@@ -7,11 +7,6 @@ spec:
     matchLabels:
       app: spring
   replicas: 1
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
   template:
     metadata:
       labels:
@@ -19,7 +14,7 @@ spec:
     spec:
       containers:
         - name: spring
-          image: llanovelascofinal.azurecr.io/venta:latest
+          image: llanovelascofinal.azurecr.io/venta
           #imagePullPolicy: Never
           env:
             - name: SPRING_PROFILES_ACTIVE
