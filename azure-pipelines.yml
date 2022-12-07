@@ -13,8 +13,6 @@ variables:
   dockerRegistryServiceConnection: 'ffcce8b0-ba3b-499b-8afb-17d9c84f3b20'
   imageRepositoryVenta: 'venta'
   dockerfilePathVenta: '$(Build.SourcesDirectory)/venta/Dockerfile'
-  imageRepositoryVista: 'vista'
-  dockerfilePathVista: '$(Build.SourcesDirectory)/vista/Dockerfile'
   containerRegistry: 'llanovelascofinal.azurecr.io'
   tag: '$(Build.BuildId)'
 
@@ -40,16 +38,6 @@ stages:
         tags: |
           $(tag)
           latest
-    - task: Docker@2
-      displayName: Build and push an image to container registry Vista
-      inputs:
-        command: buildAndPush
-        repository: $(imageRepositoryVista)
-        dockerfile: $(dockerfilePathVista)
-        containerRegistry: $(dockerRegistryServiceConnection)
-        tags: |
-          $(tag)
-          latest
 
 - stage: Deploy
   displayName: Deploy to Dev
@@ -62,10 +50,6 @@ stages:
     pool: 
       vmImage: ubuntu-latest
     steps:
-    - task: DownloadPipelineArtifact@2
-      inputs:
-        buildType: 'current'
-        targetPath: '$(Pipeline.Workspace)/kubernet'
     - task: KubernetesManifest@0
       inputs:
         action: 'createSecret'
