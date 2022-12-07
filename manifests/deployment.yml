@@ -15,5 +15,14 @@ spec:
       containers:
         - name: venta 
           image: llanovelascofinal.azurecr.io/venta
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "docker"
+            - name: SPRING_DATASOURCE_URL
+              value: "jdbc:postgresql://integra-postgres.postgres.database.azure.com:5432/factura"
+            - name: SPRING_DATASOURCE_USERNAME
+              value: "paul"
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: "ups12345678@"
           ports:
-          - containerPort: 80
+          - containerPort: 8080

@@ -3,8 +3,10 @@ kind: Service
 metadata:
     name: venta
 spec:
-    type: LoadBalancer
+    type: NodePort
     ports:
-    - port: 80 
+    - port: 8080
+      nodePort: 30780
     selector:
         app: venta
+    
